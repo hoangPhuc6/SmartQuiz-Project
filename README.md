@@ -24,6 +24,7 @@
 ---
 
 ## 📂 Project Structure
+```bash
 DemoMongoDB/
 ├── .gitignore
 ├── package.json
@@ -54,15 +55,16 @@ DemoMongoDB/
 ```bash
 git clone https://github.com/your-username/your-repo.git
 cd SmartQuiz-Project
-
+```
 ### 2. Set up Backend
 ```bash
 cd Server
 npm install
 npm run dev
-
+```
 ### 3. Set up Frontend
 ```bash
 cd Client
 npm install
 npm start
+```
