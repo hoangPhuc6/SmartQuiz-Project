@@ -25,27 +25,24 @@
 
 ## 📂 Project Structure
 DemoMongoDB/
-│
-├── .gitignore        
+├── .gitignore
 ├── package.json
 ├── package-lock.json
 │
 ├── Client/
-│   ├── src/
-│   ├── public/
-│   ├── package.json
-│   ├── package-lock.json
-│  
+│ ├── src/
+│ ├── public/
+│ ├── package.json
+│ └── package-lock.json
 │
 ├── Server/
-│   ├── models/
-│   ├── routes/
-│   ├── middleware/
-│   ├── server.js
-│   ├── seed.js
-│   ├── package.json
-│   ├── package-lock.json
-│   
+│ ├── models/
+│ ├── routes/
+│ ├── middleware/
+│ ├── server.js
+│ ├── seed.js
+│ ├── package.json
+│ └── package-lock.json
 │
 └── README.md
 
@@ -56,14 +53,16 @@ DemoMongoDB/
 ### 1. Clone repo
 ```bash
 git clone https://github.com/your-username/your-repo.git
-cd your-repo
+cd SmartQuiz-Project
 
 ### 2. Set up Backend
+```bash
 cd Server
 npm install
 npm run dev
 
 ### 3. Set up Frontend
+```bash
 cd Client
 npm install
 npm start
