@@ -30,13 +30,13 @@ DemoMongoDB/
 ├── package.json
 ├── package-lock.json
 │
-├── Client/
+├── frontend/
 │ ├── src/
 │ ├── public/
 │ ├── package.json
 │ └── package-lock.json
 │
-├── Server/
+├── backend/
 │ ├── models/
 │ ├── routes/
 │ ├── middleware/
