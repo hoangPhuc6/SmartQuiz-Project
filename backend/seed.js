@@ -31,34 +31,6 @@ const quizzes = [
         correctAnswer: 'Document',
         explanation: 'MongoDB lưu dữ liệu giống JSON document.',
         points: 1
-      },
-      {
-        content: 'Điểm mạnh nổi bật của MongoDB trong demo này là gì?',
-        options: ['Join phức tạp', 'Schema cứng', 'Lưu nested document tốt', 'Không hỗ trợ mảng'],
-        correctAnswer: 'Lưu nested document tốt',
-        explanation: 'Quiz có thể lưu nhiều câu hỏi trong cùng 1 document.',
-        points: 1
-      }
-    ]
-  },
-  {
-    title: 'React + Node.js',
-    category: 'Web',
-    difficulty: 'medium',
-    questions: [
-      {
-        content: 'React chủ yếu dùng để làm gì?',
-        options: ['Xử lý DB', 'Xây dựng UI', 'Chạy MongoDB', 'Quản lý hệ điều hành'],
-        correctAnswer: 'Xây dựng UI',
-        explanation: 'React là thư viện xây dựng giao diện.',
-        points: 1
-      },
-      {
-        content: 'Node.js dùng để làm gì?',
-        options: ['Làm frontend thuần', 'Chạy JavaScript phía server', 'Thiết kế ảnh', 'Thay CSS'],
-        correctAnswer: 'Chạy JavaScript phía server',
-        explanation: 'Node.js cho phép chạy JS ở backend.',
-        points: 1
       }
     ]
   }
@@ -68,20 +40,42 @@ async function seed() {
   try {
     await mongoose.connect(process.env.MONGO_URI);
 
-    await User.deleteMany();
-    await Quiz.deleteMany();
+    // 🔍 Kiểm tra user đã tồn tại chưa
+    let user = await User.findOne({ email: demoUser.email });
 
-    const hashedPassword = await bcrypt.hash(demoUser.password, 10);
-    await User.create({
-      name: demoUser.name,
-      email: demoUser.email,
-      password: hashedPassword,
-    });
+    if (!user) {
+      const hashedPassword = await bcrypt.hash(demoUser.password, 10);
 
-    await Quiz.insertMany(quizzes);
+      user = await User.create({
+        name: demoUser.name,
+        email: demoUser.email,
+        password: hashedPassword,
+      });
 
-    console.log('Seed thành công');
+      console.log('✅ Tạo user demo thành công');
+    } else {
+      console.log('ℹ️ User đã tồn tại, bỏ qua tạo mới');
+    }
+
+    // 🔍 Kiểm tra đã có quiz chưa (tránh duplicate)
+    const existingQuiz = await Quiz.findOne({ title: 'MongoDB Basics' });
+
+    if (!existingQuiz) {
+      const quizzesWithOwner = quizzes.map(q => ({
+        ...q,
+        owner: user._id
+      }));
+
+      await Quiz.insertMany(quizzesWithOwner);
+
+      console.log('✅ Seed quiz thành công');
+    } else {
+      console.log('ℹ️ Quiz đã tồn tại, bỏ qua seed');
+    }
+
+    console.log('🎉 Seed hoàn tất');
     console.log('Tài khoản demo: admin@gmail.com / 123456');
+
     process.exit();
   } catch (error) {
     console.error(error);

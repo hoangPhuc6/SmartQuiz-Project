@@ -29,9 +29,6 @@ function HistoryPage() {
           <div>
             <p className="section-tag">Lịch sử làm bài</p>
             <h1>Danh sách các lần làm quiz</h1>
-            <p className="muted">
-              Dữ liệu này được lấy từ collection <strong>attempts</strong>.
-            </p>
           </div>
         </div>
 
@@ -44,29 +41,35 @@ function HistoryPage() {
 
         {!!attempts.length && (
           <div className="history-list">
-            {attempts.map((attempt) => (
-              <article className="history-card" key={attempt._id}>
-                <div className="history-main">
-                  <div>
-                    <h3>{attempt.quizId?.title}</h3>
-                    <p className="muted">
-                      {attempt.quizId?.category} · {attempt.quizId?.difficulty}
-                    </p>
+            {attempts.map((attempt) => {
+              const quiz = attempt.quizId;
+
+              return (
+                <article className="history-card" key={attempt._id}>
+                  <div className="history-main">
+                    <div>
+                      <h3>{quiz?.title || 'Quiz không còn tồn tại'}</h3>
+                      <p className="muted">
+                        {quiz
+                          ? `${quiz.category} · ${quiz.difficulty}`
+                          : 'Quiz gốc đã bị xóa hoặc không còn dữ liệu'}
+                      </p>
+                    </div>
+
+                    <div className="history-score">
+                      {attempt.score}/{attempt.totalPoints}
+                    </div>
                   </div>
 
-                  <div className="history-score">
-                    {attempt.score}/{attempt.totalPoints}
+                  <div className="history-footer">
+                    <span>{new Date(attempt.createdAt).toLocaleString()}</span>
+                    <Link className="btn btn-secondary btn-sm" to={`/result/${attempt._id}`}>
+                      Xem chi tiết
+                    </Link>
                   </div>
-                </div>
-
-                <div className="history-footer">
-                  <span>{new Date(attempt.createdAt).toLocaleString()}</span>
-                  <Link className="btn btn-secondary btn-sm" to={`/result/${attempt._id}`}>
-                    Xem chi tiết
-                  </Link>
-                </div>
-              </article>
-            ))}
+                </article>
+              );
+            })}
           </div>
         )}
       </section>

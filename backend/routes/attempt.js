@@ -90,9 +90,14 @@ router.get('/result/:attemptId', auth, async (req, res) => {
   }
 });
 
-router.get('/stats/summary', async (req, res) => {
+router.get('/stats/summary', auth, async (req, res) => {
   try {
     const stats = await Attempt.aggregate([
+      {
+        $match: {
+          userId: new mongoose.Types.ObjectId(req.user.id),
+        },
+      },
       {
         $group: {
           _id: '$quizId',

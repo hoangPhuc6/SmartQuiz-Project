@@ -21,7 +21,11 @@ function HomePage() {
         setQuizzes(quizData);
         setStats(statData);
       } catch (err) {
-        setError(err.message);
+        setError(
+          err.message === 'Unauthorized'
+            ? 'Vui lòng đăng nhập để làm Quiz'
+            : err.message
+        );
       } finally {
         setLoading(false);
       }
@@ -45,8 +49,8 @@ function HomePage() {
           <p className="section-tag">SmartQuiz</p>
           <h1>Hệ thống quiz để học tập</h1>
           <p className="hero-desc">
-            Demo đăng nhập, làm bài, lưu lịch sử, quản lý quiz và thống kê bằng
-            MongoDB document database.
+            Đăng nhập, làm bài, lưu lịch sử, quản lý quiz và thống kê bằng
+            SmartQuiz.
           </p>
         </div>
 
@@ -62,7 +66,7 @@ function HomePage() {
             </>
           ) : (
             <Link to="/login" className="btn btn-primary">
-              Đăng nhập để demo
+              Đăng nhập để trải nghiệm
             </Link>
           )}
         </div>

@@ -15,10 +15,13 @@ function QuizPage() {
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
+        setLoading(true);
+        setError('');
         const data = await apiFetch(`/quizzes/${id}`);
         setQuiz(data);
       } catch (err) {
-        setError(err.message);
+        setQuiz(null);
+        setError(err.message || 'Không thể tải quiz');
       } finally {
         setLoading(false);
       }
@@ -55,14 +58,14 @@ function QuizPage() {
 
       navigate(`/result/${data.attemptId}`);
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'Nộp bài thất bại');
     } finally {
       setSubmitting(false);
     }
   };
 
   if (loading) return <div className="empty-box">Đang tải quiz...</div>;
-  if (error && !quiz) return <p className="error">{error}</p>;
+  if (error && !quiz) return <div className="empty-box">{error}</div>;
   if (!quiz) return <div className="empty-box">Không tìm thấy quiz.</div>;
 
   return (

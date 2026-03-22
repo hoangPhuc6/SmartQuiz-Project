@@ -1,30 +1,43 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const Quiz = require('../models/Quiz');
 const auth = require('../middleware/auth');
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+// Lấy danh sách quiz của user đang đăng nhập
+router.get('/', auth, async (req, res) => {
   try {
-    const quizzes = await Quiz.find().sort({ createdAt: -1 });
+    const quizzes = await Quiz.find({ owner: req.user.id }).sort({ createdAt: -1 });
     res.json(quizzes);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
+// Lấy chi tiết 1 quiz thuộc user đang đăng nhập
 router.get('/:id', auth, async (req, res) => {
   try {
-    const quiz = await Quiz.findById(req.params.id);
-    if (!quiz) {
-      return res.status(404).json({ message: 'Quiz not found' });
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: 'ID quiz không hợp lệ' });
     }
+
+    const quiz = await Quiz.findOne({
+      _id: req.params.id,
+      owner: req.user.id,
+    });
+
+    if (!quiz) {
+      return res.status(404).json({ message: 'Không tìm thấy quiz' });
+    }
+
     res.json(quiz);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
+// Tạo quiz mới cho user đang đăng nhập
 router.post('/', auth, async (req, res) => {
   try {
     const { title, category, difficulty, questions } = req.body;
@@ -38,6 +51,7 @@ router.post('/', auth, async (req, res) => {
       category,
       difficulty,
       questions,
+      owner: req.user.id,
     });
 
     res.status(201).json(quiz);
@@ -46,11 +60,20 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
+// Cập nhật quiz chỉ khi đúng chủ sở hữu
 router.put('/:id', auth, async (req, res) => {
   try {
     const { title, category, difficulty, questions } = req.body;
 
-    const quiz = await Quiz.findById(req.params.id);
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: 'ID quiz không hợp lệ' });
+    }
+
+    const quiz = await Quiz.findOne({
+      _id: req.params.id,
+      owner: req.user.id,
+    });
+
     if (!quiz) {
       return res.status(404).json({ message: 'Không tìm thấy quiz' });
     }
@@ -68,9 +91,17 @@ router.put('/:id', auth, async (req, res) => {
   }
 });
 
+// Xóa quiz chỉ khi đúng chủ sở hữu
 router.delete('/:id', auth, async (req, res) => {
   try {
-    const quiz = await Quiz.findById(req.params.id);
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: 'ID quiz không hợp lệ' });
+    }
+
+    const quiz = await Quiz.findOne({
+      _id: req.params.id,
+      owner: req.user.id,
+    });
 
     if (!quiz) {
       return res.status(404).json({ message: 'Không tìm thấy quiz' });

@@ -53,7 +53,7 @@ SmartQuiz-Project/
 
 ### 1. Clone repo
 ```bash
-git clone [https://github.com/your-username/your-repo.git](https://github.com/hoangPhuc6/SmartQuiz-Project.git)
+git clone (https://github.com/hoangPhuc6/SmartQuiz-Project.git)
 cd SmartQuiz-Project
 ```
 ### 2. Set up Root
