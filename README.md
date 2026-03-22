@@ -25,7 +25,7 @@
 
 ## 📂 Project Structure
 ```bash
-DemoMongoDB/
+SmartQuiz-Project/
 ├── .gitignore
 ├── package.json
 ├── package-lock.json
@@ -53,7 +53,7 @@ DemoMongoDB/
 
 ### 1. Clone repo
 ```bash
-git clone https://github.com/your-username/your-repo.git
+git clone [https://github.com/your-username/your-repo.git](https://github.com/hoangPhuc6/SmartQuiz-Project.git)
 cd SmartQuiz-Project
 ```
 ### 2. Set up Root
@@ -71,4 +71,18 @@ npm run be
 cd frontend
 npm install
 npm run fe
+```
+
+## 🚀 Run Project
+### 1. Cài MongoDB Community Server
+Link: https://www.mongodb.com/try/download/community
+Sau khi tải xong
+1. Mở MongoDB Compass
+2. Tạo một Connection bất kì
+3. Connect với Connection đó
+
+### 2. Run project
+Phải chạy lệnh ở thư mục root: ../SmartQuiz-Project>
+```bash
+npm run dev
 ```
