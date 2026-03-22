@@ -62,13 +62,13 @@ npm install
 ```
 ### 3. Set up Backend
 ```bash
-cd Server
+cd backend
 npm install
-npm run dev
+npm run be
 ```
 ### 4. Set up Frontend
 ```bash
-cd Client
+cd frontend
 npm install
-npm start
+npm run fe
 ```
