@@ -1,5 +1,15 @@
 {
+  "name": "mongo-quiz-demo",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run be\" \"npm run fe\"",
+    "be": "cd backend && npm run dev",
+    "fe": "cd frontend && npm run dev"
+  },
   "dependencies": {
     "react-icons": "^5.6.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }

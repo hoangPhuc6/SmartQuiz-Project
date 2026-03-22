@@ -7,6 +7,7 @@ import { FiEye, FiEyeOff } from 'react-icons/fi';
 function LoginPage() {
   const [email, setEmail] = useState('admin@gmail.com');
   const [password, setPassword] = useState('123456');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -65,12 +66,31 @@ function LoginPage() {
 
           <div>
             <label>Mật khẩu</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Nhập mật khẩu"
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Nhập mật khẩu"
+                style={{ paddingRight: '40px' }}
+              />
+
+              <span
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: 'absolute',
+                  right: '12px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  cursor: 'pointer',
+                  color: '#666',
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
+              >
+                {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+              </span>
+            </div>
           </div>
 
           {error && <p className="error">{error}</p>}
