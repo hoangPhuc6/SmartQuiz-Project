@@ -723,6 +723,16 @@ select:focus {
   line-height: 1.4;
 }
 
+.btn-danger {
+  background: #ef4444;
+  color: white;
+  border: none;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+}
+
 @media (max-width: 980px) {
   .auth-layout,
   .answer-grid {

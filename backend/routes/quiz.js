@@ -68,4 +68,20 @@ router.put('/:id', auth, async (req, res) => {
   }
 });
 
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const quiz = await Quiz.findById(req.params.id);
+
+    if (!quiz) {
+      return res.status(404).json({ message: 'Không tìm thấy quiz' });
+    }
+
+    await Quiz.findByIdAndDelete(req.params.id);
+
+    res.json({ message: 'Xóa quiz thành công' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;

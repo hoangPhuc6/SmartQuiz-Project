@@ -22,6 +22,21 @@ function ManageQuizzesPage() {
     fetchQuizzes();
   }, []);
 
+  const handleDeleteQuiz = async (quizId) => {
+    const confirmed = window.confirm('Bạn có chắc muốn xóa quiz này không?');
+    if (!confirmed) return;
+
+    try {
+      await apiFetch(`/quizzes/${quizId}`, {
+        method: 'DELETE',
+      });
+
+      setQuizzes((prev) => prev.filter((quiz) => quiz._id !== quizId));
+    } catch (err) {
+      alert(err.message || 'Xóa quiz thất bại');
+    }
+  };
+
   return (
     <div className="page-stack">
       <section className="panel">
@@ -68,6 +83,12 @@ function ManageQuizzesPage() {
                 <Link className="btn btn-primary full-width" to={`/edit-quiz/${quiz._id}`}>
                   Sửa quiz
                 </Link>
+                <button
+                  className="btn btn-danger full-width"
+                  onClick={() => handleDeleteQuiz(quiz._id)}
+                >
+                  Xóa quiz
+                </button>
               </div>
             </article>
           ))}
