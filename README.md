@@ -80,6 +80,13 @@ Sau khi tải xong
 1. Mở MongoDB Compass
 2. Tạo một Connection bất kì
 3. Connect với Connection đó
+4. Tạo file .env
+Trong folder backend, tạo một file với tên .env và copy đoạn code sau:
+```bash
+MONGO_URI=mongodb://127.0.0.1:27017/SmartQuizDB
+PORT=5000
+JWT_SECRET=your_secret_key (Tự đặt, ví dụ: quiz_secret)
+```
 
 ### 2. Run project
 Phải chạy lệnh ở thư mục root: ../SmartQuiz-Project>
